@@ -32,9 +32,19 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // Use recording to get started writing UI tests.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+/**
+ *  Test that not inputting 5 digits for zip code pops up an error
+ */
+- (void)testIncorrectZipCodeInput {
+    XCUIApplication *app = [[XCUIApplication alloc] init];
+    XCUIElement *zipCodeTextField = app.textFields[@"Zip Code"];
+    [zipCodeTextField tap];
+    [zipCodeTextField typeText:@"2"];
+    [app.buttons[@"Search Legislators"] tap];
+    XCUIElement *errorAlert = app.alerts[@"Error"];
+    XCTAssert(errorAlert != nil, @"An error alert should have popped up.");
+    [errorAlert.collectionViews.buttons[@"Ok"] tap];
+    
 }
 
 @end
